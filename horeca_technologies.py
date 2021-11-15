@@ -109,8 +109,7 @@ class Order(TimestampedModel):
  
 class OrderItem(UpdateFieldsMixin, FieldSetterMixin, TimestampedModel):
     """
-    Stores orders item amount
-    and :model:`core.Offer` of chosen Product.
+    Unit of order
     """
 
     STATUSES = Choices(
@@ -165,9 +164,10 @@ class OrderItem(UpdateFieldsMixin, FieldSetterMixin, TimestampedModel):
         super().save(*args, **kwargs)
 
 
+# Django viewset
 class OrderViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, GenericViewSet):
     """
-    Order data endpoint
+    Order endpoint
     """
 
     queryset = (
@@ -256,6 +256,7 @@ class OrderViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Destr
         instance.save(update_fields=["status"])
 
 
+# Djanfo form
 class BatchForm(forms.ModelForm):
     product = forms.ModelChoiceField(
         required=True,
@@ -353,8 +354,9 @@ class BatchForm(forms.ModelForm):
             "status",
         ]
   
-  
-  class FreshLogicExporter:
+ 
+# Store data exporter
+class FreshLogicExporter:
     PAGE_SIZE = 44
     ENDING_ROW_PADDING = 6
     TABLE_ROW = 14
